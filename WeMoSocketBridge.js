@@ -167,7 +167,7 @@ WeMoSocketBridge.prototype._setup_events = function() {
 
 WeMoSocketBridge.prototype._forget = function() {
     var self = this;
-    if (self.native) {
+    if (!self.native) {
         return;
     }
 
@@ -229,7 +229,9 @@ WeMoSocketBridge.prototype.push = function(pushd) {
                     service_urn: service_urn,
                     error: error,
                     cause: "maybe network problem",
-                }, "error calling service");
+                }, "error calling service - will forget this device");
+
+                self._forget();
                 return;
             }
         });
@@ -286,6 +288,9 @@ WeMoSocketBridge.prototype.identity = function() {
  */
 WeMoSocketBridge.prototype.meta = function() {
     var self = this;
+    if (!self.native) {
+        return;
+    }
 
     return {
         "iot:name": self.native.friendlyName || "WeMoSocket",
