@@ -306,6 +306,7 @@ WeMoSocketBridge.prototype.meta = function() {
     }
 
     return {
+        "iot:thing": _.id.thing_urn.unique("WeMoSocket", self.native.uuid),
         "iot:name": self.native.friendlyName || "WeMoSocket",
         "schema:manufacturer": "http://www.belkin.com/",
         "schema:model": "http://www.belkin.com/us/p/P-F7C027/",
