@@ -109,6 +109,10 @@ WeMoSocketBridge.prototype._setup_events = function() {
     }
 
     var _on_failed = function (code, error) {
+        if (!self.native) {
+            return;
+        }
+
         logger.error({
             method: "_setup_events/_on_failed",
             code: code,
@@ -135,6 +139,10 @@ WeMoSocketBridge.prototype._setup_events = function() {
     };
 
     var _on_subscribe = function (error, data) {
+        if (!self.native) {
+            return;
+        }
+
         if (error) {
             // console.log("- UPnPDriver._setup_events/subscribe", service_urn, error);
             logger.error({
@@ -221,6 +229,10 @@ WeMoSocketBridge.prototype.push = function(pushd) {
         };
 
         service.callAction(action_id, action_value, function (error, buffer) {
+            if (!self.native) {
+                return;
+            }
+
             if (error) {
                 logger.error({
                     method: "push",
@@ -278,6 +290,7 @@ WeMoSocketBridge.prototype.identity = function() {
 /**
  *  INSTANCE.
  *  Return the metadata - compact form can be used.
+ *  Does not have to work when not reachable
  *  <p>
  *  Really really useful things are:
  *  <ul>
