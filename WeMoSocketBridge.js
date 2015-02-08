@@ -84,7 +84,7 @@ WeMoSocketBridge.prototype.discover = function() {
  *  INSTANCE
  *  This is called when the Bridge is no longer needed. When
  */
-WeMoSocketBridge.prototype.connect = function() {
+WeMoSocketBridge.prototype.connect = function(connectd) {
     var self = this;
     if (!self.native) {
         return;
