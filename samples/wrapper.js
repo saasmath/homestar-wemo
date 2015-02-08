@@ -4,12 +4,10 @@
 
 var iotdb = require("iotdb");
 
-var WeMoSocketBridge = require('../WeMoSocketBridge').Bridge;
+var WeMoSocket = require('../WeMoSocket');
 
-wrapper = iotdb.bridge_wrapper(new WeMoSocketBridge({
-    mdns: true
-}));
-wrapper.on('discovered', function(bridge) {
+wrapper = iotdb.bridge_wrapper(WeMoSocket.binding);
+wrapper.on('bridge', function(bridge) {
     console.log("+ discovered\n ", bridge.meta());
 
     var on = false;
@@ -18,7 +16,7 @@ wrapper.on('discovered', function(bridge) {
             on: on,
         });
         on = !on;
-    }, 10 * 1000);
+    }, 5 * 1000);
 })
 wrapper.on('state', function(bridge, state) {
     console.log("+ state", state);

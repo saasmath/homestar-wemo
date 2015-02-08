@@ -4,14 +4,10 @@
 
 var iotdb = require("iotdb");
 
-var WeMoSocketBridge = require('../WeMoSocketBridge').Bridge;
-var WeMoSocketModel = require('../WeMoSocketModel').Model;
+var WeMoSocket = require('../WeMoSocket');
 
-wrapper = iotdb.bridge_wrapper(new WeMoSocketBridge());
-wrapper.on('discovered', function(bridge) {
-    var model = new WeMoSocketModel();
-    model.bind_bridge(bridge);
-
+wrapper = iotdb.bridge_wrapper(WeMoSocket.binding);
+wrapper.on('model', function(model) {
     model.on_change(function(model) {
         console.log("+ state\n ", model.thing_id(), model.state());
     });

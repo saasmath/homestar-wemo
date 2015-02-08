@@ -17,3 +17,8 @@ exports.Model = iotdb.make_model('WeMoSocket')
     .io("on", "on-value", iotdb.boolean.on)
     .make()
     ;
+
+exports.binding = {
+    bridge: require('./WeMoSocketBridge').Bridge,
+    model: exports.Model,
+};
