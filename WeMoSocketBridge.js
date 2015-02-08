@@ -43,10 +43,10 @@ var logger = bunyan.createLogger({
  *  <li><code>disconnnected</code> - this has been disconnected from a Thing
  *  </ul>
  */
-var WeMoSocketBridge = function(paramd, native) {
+var WeMoSocketBridge = function(initd, native) {
     var self = this;
 
-    self.paramd = _.defaults(paramd, {});
+    self.initd = _.defaults(initd, {});
     self.native = native;
 };
 
@@ -73,7 +73,7 @@ WeMoSocketBridge.prototype.discover = function() {
             return;
         }
 
-        self.discovered(new WeMoSocketBridge(self.paramd, native));
+        self.discovered(new WeMoSocketBridge(self.initd, native));
     });
 
     cp.search();
