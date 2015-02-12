@@ -2,13 +2,14 @@
  *  Use a "bridge_wrapper", which handles all injections
  */
 
-var iotdb = require("iotdb");
+var homestar = require("homestar");
+var _ = homestar._;
 
-var WeMoSocket = require('../WeMoSocket');
+var ModelBinding = require('../WeMoSocket');
 
-wrapper = iotdb.bridge_wrapper(WeMoSocket.binding);
+wrapper = _.bridge_wrapper(ModelBinding.binding);
 wrapper.on('bridge', function(bridge) {
-    console.log("+ discovered\n ", bridge.meta());
+    console.log("+ discovered\n ", _.ld.compact(bridge.meta()));
 
     var on = false;
     setInterval(function() {
@@ -22,8 +23,8 @@ wrapper.on('state', function(bridge, state) {
     console.log("+ state", state);
 })
 wrapper.on('meta', function(bridge) {
-    console.log("+ meta", bridge.meta());
+    console.log("+ meta", _.ld.compact(bridge.meta()));
 })
 wrapper.on('disconnected', function(bridge) {
-    console.log("+ disconnected", bridge.meta());
+    console.log("+ disconnected", _.ld.compact(bridge.meta()));
 })
