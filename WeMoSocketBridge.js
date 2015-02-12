@@ -223,8 +223,8 @@ WeMoSocketBridge.prototype.push = function(pushd) {
             return;
         }
 
-        action_id = 'SetBinaryState';
-        action_value = {
+        var action_id = 'SetBinaryState';
+        var action_value = {
             'BinaryState' : pushd.on ? 1 : 0
         };
 
