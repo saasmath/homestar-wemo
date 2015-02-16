@@ -310,12 +310,11 @@ WeMoSocketBridge.prototype.reachable = function() {
 
 /**
  *  INSTANCE.
- *  Return True if this is configured. Things
- *  that are not configured are always not reachable.
- *  If not defined, "true" is returned
+ *  Configure an express web page to configure this Bridge.
+ *  Return the name of the Bridge, which may be 
+ *  listed and displayed to the user.
  */
-WeMoSocketBridge.prototype.configured = function() {
-    return true;
+WeMoSocketBridge.prototype.configure = function(app) {
 };
 
 /* --- injected: THIS CODE WILL BE REMOVED AT RUNTIME, DO NOT MODIFY  --- */
