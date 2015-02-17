@@ -4,7 +4,7 @@
         "url": "https://github.com/dpjanes/homestar-wemo/issues"
     }, 
     "dependencies": {
-        "homestar": ">=0.0.44"
+        "homestar": ">=0.0.45"
     }, 
     "description": "HomeStar / IOTDB Bridge for Belkin WeMo", 
     "homepage": "https://homestar.io", 
@@ -19,5 +19,5 @@
         "type": "git", 
         "url": "https://github.com/dpjanes/homestar-wemo"
     }, 
-    "version": "0.0.2"
+    "version": "0.0.3"
 }

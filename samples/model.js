@@ -2,7 +2,12 @@
  *  How to use this module stand-alone
  */
 
-var wemo = require('../index')
+try {
+    var wemo = require('homestar-wemo')
+} catch (x) {
+    var wemo = require('../index')
+}
+
 var _ = wemo.homestar._;
 
 wrapper = wemo.wrap("WeMoSocket");
