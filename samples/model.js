@@ -1,18 +1,16 @@
 /*
- *  Use a Model to manipulate semantically
+ *  How to use this module stand-alone
  */
 
-var homestar = require("homestar");
-var _ = homestar._;
+var wemo = require('../index')
+var _ = wemo.homestar._;
 
-var ModelBinding = require('../WeMoSocket');
-
-wrapper = _.bridge_wrapper(ModelBinding.binding);
+wrapper = wemo.wrap("WeMoSocket");
 wrapper.on('model', function(model) {
-    model.on_change(function(model) {
+    model.on("state", function(model) {
         console.log("+ state\n ", model.thing_id(), model.state());
     });
-    model.on_meta(function(model) {
+    model.on("meta", function(model) {
         console.log("+ meta\n ", model.thing_id(), _.ld.compact(model.meta().state()));
     });
 
@@ -29,4 +27,4 @@ wrapper.on('model', function(model) {
     }, 2500);
     
     console.log("+ discovered\n ", _.ld.compact(model.meta().state()), "\n ", model.thing_id());
-})
+});

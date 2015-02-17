@@ -1,5 +1,6 @@
 /*
- *  Use a "bridge_wrapper", which handles all injections
+ *  For reference. 
+ *  Prefer the way 'model.js' works.
  */
 
 var homestar = require("homestar");

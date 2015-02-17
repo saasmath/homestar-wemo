@@ -1,5 +1,6 @@
 /*
- *  Connect to a Denon AVR at a named host
+ *  For reference. 
+ *  Prefer the way 'model.js' works.
  */
 
 var WeMoSocketBridge = require('../WeMoSocketBridge').Bridge;
