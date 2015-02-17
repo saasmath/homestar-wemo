@@ -24,8 +24,8 @@
 
 var homestar = require('homestar')
 var _ = homestar._;
+var bunyan = homestar.bunyan;
 
-var bunyan = require('bunyan');
 var logger = bunyan.createLogger({
     name: 'homestar-wemo',
     module: 'WeMoSocketBridge',
