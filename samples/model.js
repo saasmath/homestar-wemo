@@ -3,14 +3,14 @@
  */
 
 try {
-    var wemo = require('homestar-wemo')
+    var model = require('homestar-wemo')
 } catch (x) {
-    var wemo = require('../index')
+    var model = require('../index')
 }
 
-var _ = wemo.homestar._;
+var _ = model.homestar._;
 
-wrapper = wemo.wrap("WeMoSocket");
+wrapper = model.wrap("WeMoSocket");
 wrapper.on('model', function(model) {
     model.on("state", function(model) {
         console.log("+ state\n ", model.thing_id(), model.state());

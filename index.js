@@ -22,14 +22,12 @@
 
 "use strict";
 
-var homestar = require("homestar");
-
 exports.Bridge = require('./WeMoSocketBridge');
 exports.bindings = [
     require('./WeMoSocket').binding,
 ];
 
-exports.homestar = homestar;
-exports.wrap = function(name) {
-    return homestar.make_wrap(name, exports.bindings)
+exports.homestar = require("homestar");
+exports.wrap = function(name, initd) {
+    return exports.homestar.make_wrap(name, exports.bindings, initd)
 };
