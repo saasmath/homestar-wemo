@@ -14,7 +14,7 @@ exports.Model = homestar.make_model('WeMoSocket')
     .product("http://www.belkin.com/us/F7C027-Belkin/p/P-F7C027/")
     .name("WeMo Socket")
     .description("Belkin WeMo Socket")
-    .io("on", "on-value", homestar.boolean.on)
+    .io("on", homestar.boolean.on)
     .make()
     ;
 

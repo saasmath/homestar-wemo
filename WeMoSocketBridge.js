@@ -127,9 +127,9 @@ WeMoSocketBridge.prototype._setup_events = function() {
 
     var _on_stateChange = function (valued) {
         if (valued.BinaryState === '1') {
-            self.pulled({ 'on-value': true });
+            self.pulled({ 'on': true });
         } else if (valued.BinaryState === '0') {
-            self.pulled({ 'on-value': false });
+            self.pulled({ 'on': false });
         }
 
         logger.debug({
