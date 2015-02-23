@@ -2,8 +2,9 @@
 
 Connect and control WeMo products with HomeStar and IOTDB.
 
-See <a href="samples/">the samples</a> for details how to add to your project,
-particularly <code>model.js</code>.
+See <a href="samples/">the samples</a> for details how to add to your project.
+particularly <code>model.js</code> for "standalone" and <code>iotdb.js</code>
+for use in IOTDB / HomeStar projects.
 
 # WeMoSocket
 
@@ -13,25 +14,16 @@ Functionality:
 
 * discover WeMo Sockets
 * turn on and off
-* get same
-
-## WeMoSocketModel
-
-Semantic.
+* get same (including notifications
 
 ### Attributes
 
-* <code>iot-attribute:on</code>: true or false
+* <code>on</code>: true or false, purpose <code>iot-attribute:on</code>
 
-## WeMoSocketBridge
+e.g.
 
-Low-level.
+    {
+        "on": true
+    }
 
-#### Push / controls
-
-* <code>on</code>: true or false
-
-#### Pull / readings
-
-* <code>on-value</code>: true or false
-
+the socket is on / turn the socket on
