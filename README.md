@@ -6,6 +6,19 @@ See <a href="samples/">the samples</a> for details how to add to your project.
 particularly <code>model.js</code> for "standalone" and <code>iotdb.js</code>
 for use in IOTDB / HomeStar projects.
 
+# Quick Start
+
+Turn off all WeMo sockets
+
+	$ npm install -g homestar
+	$ npm install iotdb
+	$ homestar install homestar-wemo
+	$ node
+	>>> iotdb = require('iotdb')
+	>>> iot = iotdb.iot()
+	>>> things = iot.connect("WeMoSocket")
+	>>> things.set(":on", false)
+
 # WeMoSocket
 
 This controls WeMo Sockets.
