@@ -3,8 +3,8 @@
  *  Prefer the way 'model.js' works.
  */
 
-var homestar = require("homestar");
-var _ = homestar._;
+var iotdb = require("iotdb");
+var _ = iotdb._;
 
 var ModelBinding = require('../WeMoSocket');
 

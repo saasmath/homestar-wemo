@@ -22,9 +22,9 @@
 
 "use strict";
 
-var homestar = require('homestar')
-var _ = homestar._;
-var bunyan = homestar.bunyan;
+var iotdb = require('iotdb')
+var _ = iotdb._;
+var bunyan = iotdb.bunyan;
 
 var logger = bunyan.createLogger({
     name: 'homestar-wemo',
@@ -64,7 +64,7 @@ var WeMoSocketBridge = function(initd, native) {
 WeMoSocketBridge.prototype.discover = function() {
     var self = this;
     
-    var cp = homestar.upnp.control_point();
+    var cp = iotdb.upnp().control_point();
 
     cp.on("device", function (native) {
         if (native.deviceType !== "urn:Belkin:device:controllee:1") {
