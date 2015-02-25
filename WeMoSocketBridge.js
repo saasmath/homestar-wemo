@@ -22,7 +22,7 @@
 
 "use strict";
 
-var iotdb = require('iotdb')
+var iotdb = require('iotdb');
 var _ = iotdb._;
 var bunyan = iotdb.bunyan;
 
@@ -34,7 +34,7 @@ var logger = bunyan.createLogger({
 /**
  *  EXEMPLAR and INSTANCE
  *  <p>
- *  No subclassing needed! The following functions are 
+ *  No subclassing needed! The following functions are
  *  injected _after_ this is created, and before .discover and .connect
  *  <ul>
  *  <li><code>discovered</code> - tell IOTDB that we're talking to a new Thing
@@ -43,7 +43,7 @@ var logger = bunyan.createLogger({
  *  <li><code>disconnnected</code> - this has been disconnected from a Thing
  *  </ul>
  */
-var WeMoSocketBridge = function(initd, native) {
+var WeMoSocketBridge = function (initd, native) {
     var self = this;
 
     self.initd = _.defaults(initd, {});
@@ -53,7 +53,7 @@ var WeMoSocketBridge = function(initd, native) {
 /* --- lifecycle --- */
 
 /**
- *  EXEMPLAR. 
+ *  EXEMPLAR.
  *  Discover WeMo Socket
  *  <ul>
  *  <li>look for Things (using <code>self.bridge</code> data to initialize)
@@ -61,9 +61,9 @@ var WeMoSocketBridge = function(initd, native) {
  *  <li>create an WeMoSocketBridge(native)
  *  <li>call <code>self.discovered(bridge)</code> with it
  */
-WeMoSocketBridge.prototype.discover = function() {
+WeMoSocketBridge.prototype.discover = function () {
     var self = this;
-    
+
     var cp = iotdb.upnp().control_point();
 
     cp.on("device", function (native) {
@@ -84,7 +84,7 @@ WeMoSocketBridge.prototype.discover = function() {
  *  INSTANCE
  *  This is called when the Bridge is no longer needed. When
  */
-WeMoSocketBridge.prototype.connect = function(connectd) {
+WeMoSocketBridge.prototype.connect = function (connectd) {
     var self = this;
     if (!self.native) {
         return;
@@ -94,10 +94,10 @@ WeMoSocketBridge.prototype.connect = function(connectd) {
 
 };
 
-WeMoSocketBridge.prototype._setup_events = function() {
+WeMoSocketBridge.prototype._setup_events = function () {
     var self = this;
 
-    var service_urn = 'urn:Belkin:service:basicevent:1'
+    var service_urn = 'urn:Belkin:service:basicevent:1';
     var service = self.native.service_by_urn(service_urn);
     if (!service) {
         logger.error({
@@ -127,9 +127,13 @@ WeMoSocketBridge.prototype._setup_events = function() {
 
     var _on_stateChange = function (valued) {
         if (valued.BinaryState === '1') {
-            self.pulled({ 'on': true });
+            self.pulled({
+                'on': true
+            });
         } else if (valued.BinaryState === '0') {
-            self.pulled({ 'on': false });
+            self.pulled({
+                'on': false
+            });
         }
 
         logger.debug({
@@ -173,7 +177,7 @@ WeMoSocketBridge.prototype._setup_events = function() {
     service.subscribe(_on_subscribe);
 };
 
-WeMoSocketBridge.prototype._forget = function() {
+WeMoSocketBridge.prototype._forget = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -185,13 +189,13 @@ WeMoSocketBridge.prototype._forget = function() {
 
     self.native = null;
     self.pulled();
-}
+};
 
 /**
- *  INSTANCE and EXEMPLAR (during shutdown). 
+ *  INSTANCE and EXEMPLAR (during shutdown).
  *  This is called when the Bridge is no longer needed. When
  */
-WeMoSocketBridge.prototype.disconnect = function() {
+WeMoSocketBridge.prototype.disconnect = function () {
     var self = this;
     if (!self.native || !self.native) {
         return;
@@ -204,7 +208,7 @@ WeMoSocketBridge.prototype.disconnect = function() {
  *  INSTANCE.
  *  Send data to whatever you're taking to.
  */
-WeMoSocketBridge.prototype.push = function(pushd) {
+WeMoSocketBridge.prototype.push = function (pushd) {
     var self = this;
     if (!self.native) {
         return;
@@ -225,7 +229,7 @@ WeMoSocketBridge.prototype.push = function(pushd) {
 
         var action_id = 'SetBinaryState';
         var action_value = {
-            'BinaryState' : pushd.on ? 1 : 0
+            'BinaryState': pushd.on ? 1 : 0
         };
 
         service.callAction(action_id, action_value, function (error, buffer) {
@@ -261,7 +265,7 @@ WeMoSocketBridge.prototype.push = function(pushd) {
  *  Pull data from whatever we're talking to. You don't
  *  have to implement this if it doesn't make sense
  */
-WeMoSocketBridge.prototype.pull = function() {
+WeMoSocketBridge.prototype.pull = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -284,7 +288,7 @@ WeMoSocketBridge.prototype.pull = function() {
  *  <li><code>schema:manufacturer</code>
  *  <li><code>schema:model</code>
  */
-WeMoSocketBridge.prototype.meta = function() {
+WeMoSocketBridge.prototype.meta = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -300,29 +304,28 @@ WeMoSocketBridge.prototype.meta = function() {
 
 /**
  *  INSTANCE.
- *  Return True if this is reachable. You 
+ *  Return True if this is reachable. You
  *  do not need to worry about connect / disconnect /
  *  shutdown states, they will be always checked first.
  */
-WeMoSocketBridge.prototype.reachable = function() {
+WeMoSocketBridge.prototype.reachable = function () {
     return this.native !== null;
 };
 
 /**
  *  INSTANCE.
  *  Configure an express web page to configure this Bridge.
- *  Return the name of the Bridge, which may be 
+ *  Return the name of the Bridge, which may be
  *  listed and displayed to the user.
  */
-WeMoSocketBridge.prototype.configure = function(app) {
-};
+WeMoSocketBridge.prototype.configure = function (app) {};
 
 /* --- injected: THIS CODE WILL BE REMOVED AT RUNTIME, DO NOT MODIFY  --- */
-WeMoSocketBridge.prototype.discovered = function(bridge) {
+WeMoSocketBridge.prototype.discovered = function (bridge) {
     throw new Error("WeMoSocketBridge.discovered not implemented");
 };
 
-WeMoSocketBridge.prototype.pulled = function(pulld) {
+WeMoSocketBridge.prototype.pulled = function (pulld) {
     throw new Error("WeMoSocketBridge.pulled not implemented");
 };
 

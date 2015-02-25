@@ -6,7 +6,7 @@
  *  2014-01-26
  */
 
-var iotdb = require("iotdb")
+var iotdb = require("iotdb");
 
 exports.Model = iotdb.make_model('WeMoSocket')
     .facet(":plug")
@@ -15,8 +15,7 @@ exports.Model = iotdb.make_model('WeMoSocket')
     .name("WeMo Socket")
     .description("Belkin WeMo Socket")
     .io("on", iotdb.boolean.on)
-    .make()
-    ;
+    .make();
 
 exports.binding = {
     bridge: require('./WeMoSocketBridge').Bridge,
