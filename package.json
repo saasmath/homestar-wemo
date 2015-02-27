@@ -20,11 +20,7 @@
         "request": "^2.36.0"
     }, 
     "homepage": "https://homestar.io", 
-    "homestar": {
-        "dependencies": {
-            "iotdb-upnp": ">=0.0.1"
-        }
-    }, 
+    "homestar": {}, 
     "license": "Apache-2.0", 
     "main": "index.js", 
     "name": "homestar-wemo", 
