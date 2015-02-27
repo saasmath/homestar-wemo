@@ -10,7 +10,7 @@ for use in IOTDB / HomeStar projects.
 
 Turn off all WeMo sockets
 
-	$ npm install -g homestar
+	$ npm install -g homestar ## with 'sudo' if error
 	$ npm install iotdb
 	$ homestar install homestar-wemo
 	$ node

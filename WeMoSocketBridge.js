@@ -64,7 +64,7 @@ var WeMoSocketBridge = function (initd, native) {
 WeMoSocketBridge.prototype.discover = function () {
     var self = this;
 
-    var cp = iotdb.upnp().control_point();
+    var cp = iotdb.module("iotdb-upnp").control_point();
 
     cp.on("device", function (native) {
         if (native.deviceType !== "urn:Belkin:device:controllee:1") {
