@@ -1,5 +1,5 @@
 /*
- *  WeMoSocketMotion.js
+ *  WeMoSocket.js
  *
  *  David Janes
  *  IOTDB
