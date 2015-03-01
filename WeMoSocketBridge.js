@@ -67,9 +67,7 @@ WeMoSocketBridge.prototype.discover = function () {
     var cp = iotdb.module("iotdb-upnp").control_point();
 
     cp.on("device", function (native) {
-        if (native.deviceType !== "urn:Belkin:device:controllee:1") {
-            return;
-        } else if (native.modelName !== "Socket") {
+        if (!self.isSupported(native)) {
             return;
         }
 
@@ -78,6 +76,18 @@ WeMoSocketBridge.prototype.discover = function () {
 
     cp.search();
 
+};
+
+/**
+ *  Check if the detected device is supported by this socket
+ */
+WeMoSocketBridge.prototype.isSupported = function (native) {
+    return (
+        (native.deviceType == "urn:Belkin:device:controllee:1" &&
+        native.modelName == "Socket") ||
+        (native.deviceType == "urn:Belkin:device:insight:1" &&
+        native.modelName == "Insight")
+    );
 };
 
 /**
