@@ -1,5 +1,5 @@
 /*
- *  WeMoSocketBridge.js
+ *  WeMoBridge.js
  *
  *  David Janes
  *  IOTDB.org
@@ -28,7 +28,7 @@ var bunyan = iotdb.bunyan;
 
 var logger = bunyan.createLogger({
     name: 'homestar-wemo',
-    module: 'WeMoSocketBridge',
+    module: 'WeMoBridge',
 });
 
 /**
@@ -43,7 +43,7 @@ var logger = bunyan.createLogger({
  *  <li><code>disconnnected</code> - this has been disconnected from a Thing
  *  </ul>
  */
-var WeMoSocketBridge = function (initd, native) {
+var WeMoBridge = function (initd, native) {
     var self = this;
 
     self.initd = _.defaults(initd, {});
@@ -62,10 +62,10 @@ var WeMoSocketBridge = function (initd, native) {
  *  <ul>
  *  <li>look for Things (using <code>self.bridge</code> data to initialize)
  *  <li>find / create a <code>native</code> that does the talking
- *  <li>create an WeMoSocketBridge(native)
+ *  <li>create an WeMoBridge(native)
  *  <li>call <code>self.discovered(bridge)</code> with it
  */
-WeMoSocketBridge.prototype.discover = function () {
+WeMoBridge.prototype.discover = function () {
     var self = this;
 
     var cp = iotdb.module("iotdb-upnp").control_point();
@@ -75,7 +75,7 @@ WeMoSocketBridge.prototype.discover = function () {
             return;
         }
 
-        self.discovered(new WeMoSocketBridge(self.initd, native));
+        self.discovered(new WeMoBridge(self.initd, native));
     });
 
     cp.search();
@@ -85,7 +85,7 @@ WeMoSocketBridge.prototype.discover = function () {
 /**
  *  Check if the detected device is supported by this socket
  */
-WeMoSocketBridge.prototype._is_supported = function (native) {
+WeMoBridge.prototype._is_supported = function (native) {
     return (
         ((native.deviceType === "urn:Belkin:device:controllee:1") && (native.modelName === "Socket")) ||
         ((native.deviceType === "urn:Belkin:device:insight:1") && (native.modelName === "Insight")) ||
@@ -98,7 +98,7 @@ WeMoSocketBridge.prototype._is_supported = function (native) {
  *  INSTANCE
  *  This is called when this Thing is ready to be used
  */
-WeMoSocketBridge.prototype.connect = function (connectd) {
+WeMoBridge.prototype.connect = function (connectd) {
     var self = this;
     if (!self.native) {
         return;
@@ -116,7 +116,7 @@ WeMoSocketBridge.prototype.connect = function (connectd) {
 
 };
 
-WeMoSocketBridge.prototype._setup_events = function () {
+WeMoBridge.prototype._setup_events = function () {
     var self = this;
 
     for (var si in self.connectd.subscribes) {
@@ -124,7 +124,7 @@ WeMoSocketBridge.prototype._setup_events = function () {
     }
 };
 
-WeMoSocketBridge.prototype._setup_event = function (service_urn) {
+WeMoBridge.prototype._setup_event = function (service_urn) {
     var self = this;
 
     var service = self.native.service_by_urn(service_urn);
@@ -207,7 +207,7 @@ WeMoSocketBridge.prototype._setup_event = function (service_urn) {
     service.subscribe(_on_subscribe);
 };
 
-WeMoSocketBridge.prototype._forget = function () {
+WeMoBridge.prototype._forget = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -225,7 +225,7 @@ WeMoSocketBridge.prototype._forget = function () {
  *  INSTANCE and EXEMPLAR (during shutdown).
  *  This is called when the Bridge is no longer needed. When
  */
-WeMoSocketBridge.prototype.disconnect = function () {
+WeMoBridge.prototype.disconnect = function () {
     var self = this;
     if (!self.native || !self.native) {
         return;
@@ -238,7 +238,7 @@ WeMoSocketBridge.prototype.disconnect = function () {
  *  INSTANCE.
  *  Send data to whatever you're taking to.
  */
-WeMoSocketBridge.prototype.push = function (pushd) {
+WeMoBridge.prototype.push = function (pushd) {
     var self = this;
     if (!self.native) {
         return;
@@ -295,7 +295,7 @@ WeMoSocketBridge.prototype.push = function (pushd) {
  *  Pull data from whatever we're talking to. You don't
  *  have to implement this if it doesn't make sense
  */
-WeMoSocketBridge.prototype.pull = function () {
+WeMoBridge.prototype.pull = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -318,7 +318,7 @@ WeMoSocketBridge.prototype.pull = function () {
  *  <li><code>schema:manufacturer</code>
  *  <li><code>schema:model</code>
  */
-WeMoSocketBridge.prototype.meta = function () {
+WeMoBridge.prototype.meta = function () {
     var self = this;
     if (!self.native) {
         return;
@@ -341,7 +341,7 @@ WeMoSocketBridge.prototype.meta = function () {
  *  do not need to worry about connect / disconnect /
  *  shutdown states, they will be always checked first.
  */
-WeMoSocketBridge.prototype.reachable = function () {
+WeMoBridge.prototype.reachable = function () {
     return this.native !== null;
 };
 
@@ -351,18 +351,18 @@ WeMoSocketBridge.prototype.reachable = function () {
  *  Return the name of the Bridge, which may be
  *  listed and displayed to the user.
  */
-WeMoSocketBridge.prototype.configure = function (app) {};
+WeMoBridge.prototype.configure = function (app) {};
 
 /* --- injected: THIS CODE WILL BE REMOVED AT RUNTIME, DO NOT MODIFY  --- */
-WeMoSocketBridge.prototype.discovered = function (bridge) {
-    throw new Error("WeMoSocketBridge.discovered not implemented");
+WeMoBridge.prototype.discovered = function (bridge) {
+    throw new Error("WeMoBridge.discovered not implemented");
 };
 
-WeMoSocketBridge.prototype.pulled = function (pulld) {
-    throw new Error("WeMoSocketBridge.pulled not implemented");
+WeMoBridge.prototype.pulled = function (pulld) {
+    throw new Error("WeMoBridge.pulled not implemented");
 };
 
 /*
  *  API
  */
-exports.Bridge = WeMoSocketBridge;
+exports.Bridge = WeMoBridge;

@@ -18,7 +18,7 @@ exports.Model = iotdb.make_model('WeMoSocket')
     .make();
 
 exports.binding = {
-    bridge: require('./WeMoSocketBridge').Bridge,
+    bridge: require('./WeMoBridge').Bridge,
     model: exports.Model,
     matchd: {
         'iot:vendor/type': 'urn:Belkin:device:controllee:1',

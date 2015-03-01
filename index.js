@@ -24,7 +24,7 @@
 
 exports.iotdb_module = true;
 
-exports.Bridge = require('./WeMoSocketBridge');
+exports.Bridge = require('./WeMoBridge');
 exports.bindings = [
     require('./WeMoSocket').binding,
 ];

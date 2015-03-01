@@ -3,9 +3,9 @@
  *  Prefer the way 'model.js' works.
  */
 
-var WeMoSocketBridge = require('../WeMoSocketBridge').Bridge;
+var WeMoBridge = require('../WeMoBridge').Bridge;
 
-var bridge_exemplar = new WeMoSocketBridge();
+var bridge_exemplar = new WeMoBridge();
 bridge_exemplar.discovered = function(bridge) {
     console.log("+ got one", bridge.meta());
     bridge.pulled = function(state) {
