@@ -48,6 +48,10 @@ var WeMoSocketBridge = function (initd, native) {
 
     self.initd = _.defaults(initd, {});
     self.native = native;
+
+    if (self.native) {
+        self.connected = {};
+    }
 };
 
 /* --- lifecycle --- */
@@ -67,9 +71,7 @@ WeMoSocketBridge.prototype.discover = function () {
     var cp = iotdb.module("iotdb-upnp").control_point();
 
     cp.on("device", function (native) {
-        if (native.deviceType !== "urn:Belkin:device:controllee:1") {
-            return;
-        } else if (native.modelName !== "Socket") {
+        if (!self._is_supported(native)) {
             return;
         }
 
@@ -81,14 +83,34 @@ WeMoSocketBridge.prototype.discover = function () {
 };
 
 /**
+ *  Check if the detected device is supported by this socket
+ */
+WeMoSocketBridge.prototype._is_supported = function (native) {
+    return (
+        ((native.deviceType === "urn:Belkin:device:controllee:1") && (native.modelName === "Socket")) ||
+        ((native.deviceType === "urn:Belkin:device:insight:1") && (native.modelName === "Insight")) ||
+        (native.deviceType === "urn:Belkin:device:sensor:1") ||
+        (native.deviceType === "urn:Belkin:device:crockpot:1")
+    );
+};
+
+/**
  *  INSTANCE
- *  This is called when the Bridge is no longer needed. When
+ *  This is called when this Thing is ready to be used
  */
 WeMoSocketBridge.prototype.connect = function (connectd) {
     var self = this;
     if (!self.native) {
         return;
     }
+
+    self.connectd = _.defaults(connectd, {
+        subscribes: [],
+        data_in: function (paramd) {
+        },
+        data_out: function (paramd) {
+        },
+    });
 
     self._setup_events();
 
@@ -97,7 +119,14 @@ WeMoSocketBridge.prototype.connect = function (connectd) {
 WeMoSocketBridge.prototype._setup_events = function () {
     var self = this;
 
-    var service_urn = 'urn:Belkin:service:basicevent:1';
+    for (var si in self.connectd.subscribes) {
+        self._setup_event(self.connectd.subscribes[si]);
+    }
+};
+
+WeMoSocketBridge.prototype._setup_event = function (service_urn) {
+    var self = this;
+
     var service = self.native.service_by_urn(service_urn);
     if (!service) {
         logger.error({
@@ -126,19 +155,20 @@ WeMoSocketBridge.prototype._setup_events = function () {
     };
 
     var _on_stateChange = function (valued) {
-        if (valued.BinaryState === '1') {
-            self.pulled({
-                'on': true
-            });
-        } else if (valued.BinaryState === '0') {
-            self.pulled({
-                'on': false
-            });
-        }
+        var paramd = {
+            rawd: {},
+            cookd: {},
+        };
+        paramd.rawd[service_urn] = valued;
 
-        logger.debug({
+        self.connectd.data_in(paramd);
+
+        self.pulled(paramd.cookd);
+
+        logger.info({
             method: "_setup_events/_on_stateChange",
             valued: valued,
+            pulled: paramd.cookd,
         }, "called pulled");
     };
 
@@ -296,9 +326,12 @@ WeMoSocketBridge.prototype.meta = function () {
 
     return {
         "iot:thing": _.id.thing_urn.unique("WeMoSocket", self.native.uuid),
-        "iot:name": self.native.friendlyName || "WeMoSocket",
+        "iot:name": self.native.friendlyName || "WeMo",
+        'iot:vendor/type': self.native.deviceType,
+        'iot:vendor/model': self.native.modelName,
         "schema:manufacturer": "http://www.belkin.com/",
-        "schema:model": "http://www.belkin.com/us/p/P-F7C027/",
+        /* XXX - note to self - need a way for connectd to inject schema */
+        // "schema:model": "http://www.belkin.com/us/p/P-F7C027/",
     };
 };
 
