@@ -26,6 +26,8 @@ exports.Bridge = require('./WeMoBridge');
 exports.bindings = [
     require('./models/WeMoSocket').binding,
     require('./models/WeMoMotion').binding,
+    require('./models/WeMoInsight').binding,
+    require('./models/WeMoCrockpot').binding,
 ];
 
 exports.iotdb = require("iotdb");

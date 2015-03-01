@@ -19,7 +19,8 @@ Turn off all WeMo sockets
 	>>> things = iot.connect("WeMoSocket")
 	>>> things.set(":on", false)
 
-# WeMoSocket
+# Models
+## WeMoSocket
 
 This controls WeMo Sockets.
 
@@ -27,7 +28,7 @@ Functionality:
 
 * discover WeMo Sockets
 * turn on and off
-* get same (including notifications
+* get same (including notifications)
 
 ### Attributes
 
@@ -40,3 +41,44 @@ e.g.
     }
 
 the socket is on / turn the socket on
+
+## WeMoInsight
+
+NOT TESTED
+
+### Attributes
+
+* <code>on</code>: true or false, purpose <code>iot-attribute:on</code>
+
+e.g.
+
+    {
+        "on": true
+    }
+## WeMoMotion
+
+NOT TESTED
+
+### Attributes
+
+* <code>motion</code>: true or false, purpose <code>iot-attribute:sensor.motion</code>
+
+e.g.
+
+    {
+        "motion": true
+    }
+
+## WeMoCrockpot
+
+NOT TESTED
+
+### Attributes
+
+* <code>on</code>: true or false, purpose <code>iot-attribute:on</code>
+
+e.g.
+
+    {
+        "on": true
+    }
