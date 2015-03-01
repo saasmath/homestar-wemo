@@ -55,6 +55,21 @@ e.g.
     {
         "on": true
     }
+
+## WeMoLightSwitch
+
+NOT TESTED
+
+### Attributes
+
+* <code>on</code>: true or false, purpose <code>iot-attribute:on</code>
+
+e.g.
+
+    {
+        "on": true
+    }
+
 ## WeMoMotion
 
 NOT TESTED
