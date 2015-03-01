@@ -90,6 +90,7 @@ WeMoBridge.prototype._is_supported = function (native) {
         ((native.deviceType === "urn:Belkin:device:controllee:1") && (native.modelName === "Socket")) ||
         ((native.deviceType === "urn:Belkin:device:insight:1") && (native.modelName === "Insight")) ||
         (native.deviceType === "urn:Belkin:device:sensor:1") ||
+        (native.deviceType === "urn:Belkin:device:lightswitch:1") ||
         (native.deviceType === "urn:Belkin:device:crockpot:1")
     );
 };

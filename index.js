@@ -28,6 +28,7 @@ exports.bindings = [
     require('./models/WeMoMotion').binding,
     require('./models/WeMoInsight').binding,
     require('./models/WeMoCrockpot').binding,
+    require('./models/WeMoLightSwitch').binding,
 ];
 
 exports.iotdb = require("iotdb");
