@@ -15,7 +15,7 @@ exports.Model = iotdb.make_model('WeMoMotion')
     .product("http://www.belkin.com/us/p/P-F5Z0340/")
     .name("WeMo Motion")
     .description("Belkin WeMo Motion")
-    .i("motion", attribute.sensor.boolean.motion)
+    .i("motion", iotdb.sensor.boolean.motion)
     .make();
 
 exports.binding = {
@@ -30,9 +30,14 @@ exports.binding = {
         ],
 
         data_in: function(paramd) {
-        },
-
-        data_out: function(paramd) {
+            var valued = paramd.rawd['urn:Belkin:service:basicevent:1'];
+            if (valued !== undefined) {
+                if (valued.BinaryState === '1') {
+                    paramd.cookd.motion = true;
+                } else if (valued.BinaryState === '0') {
+                    paramd.cookd.motion = false;
+                }
+            }
         },
     },
 };
