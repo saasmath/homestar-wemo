@@ -1,12 +1,12 @@
 /*
  *  For reference. 
- *  Prefer the way 'model.js' works.
+ *  Prefer the way 'iotdb.js' or 'model.js' works.
  */
 
 var iotdb = require("iotdb");
 var _ = iotdb._;
 
-var ModelBinding = require('../WeMoSocket');
+var ModelBinding = require('../models/WeMoSocket');
 
 wrapper = _.bridge_wrapper(ModelBinding.binding);
 wrapper.on('bridge', function(bridge) {

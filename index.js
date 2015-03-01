@@ -22,11 +22,10 @@
 
 "use strict";
 
-exports.iotdb_module = true;
-
 exports.Bridge = require('./WeMoBridge');
 exports.bindings = [
-    require('./WeMoSocket').binding,
+    require('./models/WeMoSocket').binding,
+    require('./models/WeMoMotion').binding,
 ];
 
 exports.iotdb = require("iotdb");

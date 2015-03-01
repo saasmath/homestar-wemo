@@ -31,7 +31,8 @@ echo "=================="
 
     tar cf - \
         README.md LICENSE homestar.json package.json \
-        *.js \
+        models/*js \
+        WeMoBridge.js index.js \
         |
     ( cd "${NPM_DST}" && tar xvf - )
 
