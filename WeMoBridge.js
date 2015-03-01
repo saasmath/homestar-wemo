@@ -244,7 +244,13 @@ WeMoBridge.prototype.push = function (pushd) {
         return;
     }
 
-    if (pushd.on !== undefined) {
+    var paramd = {
+        cookd: pushd,
+        rawd: {},
+    };
+    self.connectd.data_out(paramd);
+
+    for (var service_urn in paramd.rawd) {
         var service_urn = 'urn:Belkin:service:basicevent:1';
         var service = self.native.service_by_urn(service_urn);
         if (!service) {
@@ -254,33 +260,15 @@ WeMoBridge.prototype.push = function (pushd) {
                 pushd: pushd,
                 service_urn: service_urn,
             }, "service not found - highly unexpected");
-            return;
+            continue;
         }
 
-        var action_id = 'SetBinaryState';
-        var action_value = {
-            'BinaryState': pushd.on ? 1 : 0
-        };
+        var serviced = paramd.rawd[service_urn];
+        for (var action_id in serviced) {
+            var action_value = serviced[action_id];
 
-        service.callAction(action_id, action_value, function (error, buffer) {
-            if (!self.native) {
-                return;
-            }
-
-            if (error) {
-                logger.error({
-                    method: "push",
-                    unique_id: self.unique_id,
-                    pushd: pushd,
-                    service_urn: service_urn,
-                    error: error,
-                    cause: "maybe network problem",
-                }, "error calling service - will forget this device");
-
-                self._forget();
-                return;
-            }
-        });
+            self._send_action(pushd, service_urn, service, action_id, action_value);
+        }
     }
 
     logger.info({
@@ -288,6 +276,30 @@ WeMoBridge.prototype.push = function (pushd) {
         unique_id: self.unique_id,
         pushd: pushd,
     }, "pushed");
+};
+
+WeMoBridge.prototype._send_action = function (pushd, service_urn, service, action_id, action_value) {
+    var self = this;
+
+    service.callAction(action_id, action_value, function (error, buffer) {
+        if (!self.native) {
+            return;
+        }
+
+        if (error) {
+            logger.error({
+                method: "push",
+                unique_id: self.unique_id,
+                pushd: pushd,
+                service_urn: service_urn,
+                error: error,
+                cause: "maybe network problem",
+            }, "error calling service - will forget this device");
+
+            self._forget();
+            return;
+        }
+    });
 };
 
 /**

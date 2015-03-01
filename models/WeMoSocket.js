@@ -41,6 +41,13 @@ exports.binding = {
         },
 
         data_out: function(paramd) {
+            if (paramd.cookd.on !== undefined) {
+                paramd.rawd['urn:Belkin:service:basicevent:1'] = {
+                    'SetBinaryState': {
+                        'BinaryState': paramd.cookd.on ? 1 : 0
+                    },
+                };
+            }
         },
     },
 };
