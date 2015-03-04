@@ -18,11 +18,18 @@ exports.Model = iotdb.make_model('WeMoInsight')
     .name("WeMo Insight")
     .description("Belkin WeMo Insight")
     .io("on", iotdb.boolean.on)
-    .i("today-kwh", iotdb.number)
-    .i("current-power", iotdb.number)
-    .i("today-on-time", iotdb.number)
-    .i("on-for", iotdb.number)
-    .i("today_standby-time", iotdb.number)
+    .i("today-power", iotdb.number, {
+        "iot:unit": "iot-unit:energy.si.joule",
+    })
+    .i("total-power", iotdb.number, {
+        "iot:unit": "iot-unit:energy.si.joule",
+    })
+    .i("today-uptime", iotdb.integer, {
+        "iot:unit": "iot-unit:time.si.second",
+    })
+    .i("total-uptime", iotdb.integer, {
+        "iot:unit": "iot-unit:time.si.second",
+    })
     .make();
 
 exports.binding = {
@@ -40,21 +47,54 @@ exports.binding = {
         data_in: function(paramd) {
             var valued = paramd.rawd['urn:Belkin:service:basicevent:1'];
             if (valued !== undefined) {
-                if (valued.BinaryState === '1') {
-                    paramd.cookd.on = true;
-                } else if (valued.BinaryState === '0') {
-                    paramd.cookd.on = false;
+                var state = valued.BinaryState;
+                if (state !== undefined) {
+                    parts = state.split("|")
+                    parts = _.map(parts, function(part) {
+                        try {
+                            return parseInt(part);
+                        } catch (x) {
+                            return part;
+                        }
+                    });
+
+                    var names = [
+                        "on", // State
+                        "", // Seconds Since 1970 of Last State Change
+                        "", // Last On Seconds
+                        "today-uptime", // Seconds On Today
+                        "", // Unknown – Unit is Seconds
+                        "total-uptime", // Total Seconds
+                        "", // Unknown – Units are Watts
+                        "today-power", // Energy Used Today in mW * minutes
+                        "total-power", // Energy Used Total in mW * minutes
+                        "", // Unknown
+                    ];
+
+                    var d = _.object(names, parts);
+
+                    /* - boolean */
+                    if (d["on"] !== undefined) {
+                        paramd.cookd.on = d["on"] ? true : false;
+                    }
+
+                    /* time in seconds - as is */
+                    if (d["today-uptime"] !== undefined) {
+                        paramd.cookd.on = d["today-uptime"];
+                    }
+                    if (d["total-uptime"] !== undefined) {
+                        paramd.cookd.on = d["total-uptime"];
+                    }
+
+                    /* mW*m -> joules */
+                    if (d["today-power"] !== undefined) {
+                        paramd.cookd.on = d["today-power"] / 1000.0 * 60.0;
+                    }
+                    if (d["total-power"] !== undefined) {
+                        paramd.cookd.on = d["total-power"] / 1000.0 * 60.0;
+                    }
                 }
             }
-
-            console.log("NEW VALUES HERE", paramd);
-            /*
-            paramd.cooked["today-kwh"] = parseInt(some_value);
-            paramd.cooked["current-power"] = parseInt(some_value);
-            paramd.cooked["today-on-time"] = parseInt(some_value);
-            paramd.cooked["on-for"] = parseInt(some_value);
-            paramd.cooked["today_standby-time"] = parseInt(some_value);
-            */
         },
 
         data_out: function(paramd) {
