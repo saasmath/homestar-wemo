@@ -3,10 +3,6 @@
     "bugs": {
         "url": "https://github.com/dpjanes/homestar-wemo/issues"
     }, 
-    "dependencies": {
-        "iotdb": ">=0.5.3", 
-        "iotdb-upnp": ">=0.0.5"
-    }, 
     "description": "HomeStar / IOTDB Bridge for Belkin WeMo", 
     "devDependencies": {
         "grunt": "~0.4.5", 
@@ -24,6 +20,10 @@
     "license": "Apache-2.0", 
     "main": "index.js", 
     "name": "homestar-wemo", 
+    "peerDependencies": {
+        "iotdb": ">=0.5.3", 
+        "iotdb-upnp": ">=0.0.5"
+    }, 
     "private": false, 
     "repository": {
         "type": "git", 
