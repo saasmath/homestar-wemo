@@ -9,6 +9,7 @@
  */
 
 var iotdb = require("iotdb");
+var _ = iotdb._;
 
 exports.Model = iotdb.make_model('WeMoInsight')
     .facet(":plug")
