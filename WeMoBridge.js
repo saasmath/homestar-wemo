@@ -107,10 +107,8 @@ WeMoBridge.prototype.connect = function (connectd) {
 
     self.connectd = _.defaults(connectd, {
         subscribes: [],
-        data_in: function (paramd) {
-        },
-        data_out: function (paramd) {
-        },
+        data_in: function (paramd) {},
+        data_out: function (paramd) {},
     });
 
     self._setup_events();
@@ -252,7 +250,6 @@ WeMoBridge.prototype.push = function (pushd) {
     self.connectd.data_out(paramd);
 
     for (var service_urn in paramd.rawd) {
-        var service_urn = 'urn:Belkin:service:basicevent:1';
         var service = self.native.service_by_urn(service_urn);
         if (!service) {
             logger.error({
