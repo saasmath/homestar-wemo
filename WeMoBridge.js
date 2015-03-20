@@ -323,7 +323,7 @@ WeMoBridge.prototype.pull = function () {
  *  <ul>
  *  <li><code>iot:thing</code> required - a unique ID
  *  <li><code>iot:device</code> suggested if linking multiple things together
- *  <li><code>iot:name</code>
+ *  <li><code>schema:name</code>
  *  <li><code>iot:number</code>
  *  <li><code>schema:manufacturer</code>
  *  <li><code>schema:model</code>
@@ -336,7 +336,7 @@ WeMoBridge.prototype.meta = function () {
 
     return {
         "iot:thing": _.id.thing_urn.unique("WeMoSocket", self.native.uuid),
-        "iot:name": self.native.friendlyName || "WeMo",
+        "schema:name": self.native.friendlyName || "WeMo",
         'iot:vendor/type': self.native.deviceType,
         'iot:vendor/model': self.native.modelName,
         "schema:manufacturer": "http://www.belkin.com/",
