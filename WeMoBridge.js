@@ -118,9 +118,16 @@ WeMoBridge.prototype.connect = function (connectd) {
 WeMoBridge.prototype._setup_events = function () {
     var self = this;
 
+    console.log("HERE:AAA", "_setup_events");
+
     for (var si in self.connectd.subscribes) {
         self._setup_event(self.connectd.subscribes[si]);
     }
+
+    self.native.on("device-lost", function() {
+        console.log("HERE:BBB", "device-lost");
+        self._forget();
+    });
 };
 
 WeMoBridge.prototype._setup_event = function (service_urn) {
@@ -137,6 +144,8 @@ WeMoBridge.prototype._setup_event = function (service_urn) {
     }
 
     var _on_failed = function (code, error) {
+        _remove_listeners();
+
         if (!self.native) {
             return;
         }
@@ -150,7 +159,6 @@ WeMoBridge.prototype._setup_event = function (service_urn) {
         }, "called");
 
         self._forget();
-        _remove_listeners();
     };
 
     var _on_stateChange = function (valued) {
@@ -202,6 +210,7 @@ WeMoBridge.prototype._setup_event = function (service_urn) {
     }, "subscribe");
 
     service.on("failed", _on_failed);
+    service.on("forget", _on_failed);
     service.on("stateChange", _on_stateChange);
     service.subscribe(_on_subscribe);
 };
@@ -216,7 +225,21 @@ WeMoBridge.prototype._forget = function () {
         method: "_forget"
     }, "called");
 
+    // tediously avoiding loops
+    var device = self.native;
     self.native = null;
+
+    // make sure services are cleaned up
+    for (var si in self.connectd.subscribes) {
+        var service_urn = self.connectd.subscribes[si];
+        var service = device.service_by_urn(service_urn);
+        if (!service) {
+            continue;
+        }
+
+        service.emit("forget");
+    }
+
     self.pulled();
 };
 
