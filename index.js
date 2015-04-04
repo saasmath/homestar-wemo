@@ -22,7 +22,7 @@
 
 "use strict";
 
-exports.Bridge = require('./WeMoBridge');
+exports.Bridge = require('./WeMoBridge').Bridge;
 exports.bindings = [
     require('./models/WeMoSocket').binding,
     require('./models/WeMoMotion').binding,
