@@ -162,6 +162,10 @@ WeMoBridge.prototype._setup_event = function (service_urn) {
     };
 
     var _on_stateChange = function (valued) {
+        if (!self.native) {
+            return;
+        }
+
         var paramd = {
             rawd: {},
             cookd: {},
