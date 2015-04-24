@@ -9,5 +9,5 @@ var iot = iotdb.iot();
 
 var things = iot.connect('WeMoCrockpot');
 things.on("state", function(thing) {
-    console.log("+", thing.thing_id(), "\n ", thing.state());
+    console.log("+", thing.thing_id(), "\n ", thing.state("istate"));
 });
