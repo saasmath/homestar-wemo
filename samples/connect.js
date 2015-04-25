@@ -11,7 +11,17 @@ bridge_exemplar.discovered = function(bridge) {
     bridge.pulled = function(state) {
         console.log("+ state-change", state);
     };
-    bridge.connect();
+    bridge.connect({
+        data_out: function(paramd) {
+            if (paramd.cookd.on !== undefined) {
+                paramd.rawd['urn:Belkin:service:basicevent:1'] = {
+                    'SetBinaryState': {
+                        'BinaryState': paramd.cookd.on ? 1 : 0
+                    },
+                };
+            }
+        },
+    });
 
     var on = false;
     setInterval(function() {

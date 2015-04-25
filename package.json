@@ -21,7 +21,7 @@
     "main": "index.js", 
     "name": "homestar-wemo", 
     "peerDependencies": {
-        "iotdb": ">=0.5.12", 
+        "iotdb": ">=0.5.13", 
         "iotdb-upnp": ">=0.0.8"
     }, 
     "private": false, 
