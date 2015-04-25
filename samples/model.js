@@ -1,5 +1,6 @@
 /*
  *  How to use this module stand-alone
+ *  Prefer iotdb* versions
  */
 
 try {
@@ -13,10 +14,10 @@ var _ = model.iotdb._;
 wrapper = model.wrap("WeMoSocket");
 wrapper.on('thing', function(model) {
     model.on("state", function(model) {
-        console.log("+ state\n ", model.thing_id(), model.state());
+        console.log("+ state\n ", model.thing_id(), model.state("istate"));
     });
     model.on("meta", function(model) {
-        console.log("+ meta\n ", model.thing_id(), _.ld.compact(model.meta().state()));
+        console.log("+ meta\n ", model.thing_id(), model.state("meta"));
     });
 
     var on = false;
@@ -31,5 +32,5 @@ wrapper.on('thing', function(model) {
         on = !on;
     }, 2500);
     
-    console.log("+ discovered\n ", _.ld.compact(model.meta().state()), "\n ", model.thing_id());
+    console.log("+ discovered\n ", model.thing_id(), model.state("meta"));
 });
