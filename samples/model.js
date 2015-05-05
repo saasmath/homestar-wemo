@@ -11,7 +11,7 @@ try {
 
 var _ = model.iotdb._;
 
-wrapper = model.wrap("WeMoSocket");
+var wrapper = model.wrap("WeMoSocket");
 wrapper.on('thing', function(model) {
     model.on("state", function(model) {
         console.log("+ state\n ", model.thing_id(), model.state("istate"));
