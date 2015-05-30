@@ -250,9 +250,10 @@ WeMoBridge.prototype.disconnect = function () {
 /**
  *  See {iotdb.bridge.Bridge#push} for documentation.
  */
-WeMoBridge.prototype.push = function (pushd) {
+WeMoBridge.prototype.push = function (pushd, done) {
     var self = this;
     if (!self.native) {
+        done(new Error("not connected"));
         return;
     }
 
@@ -289,6 +290,8 @@ WeMoBridge.prototype.push = function (pushd) {
         unique_id: self.unique_id,
         pushd: pushd,
     }, "pushed");
+
+    done();
 };
 
 WeMoBridge.prototype._send_action = function (pushd, service_urn, service, action_id, action_value) {
