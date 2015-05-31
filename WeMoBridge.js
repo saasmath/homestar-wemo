@@ -291,6 +291,9 @@ WeMoBridge.prototype.push = function (pushd, done) {
         pushd: pushd,
     }, "pushed");
 
+    // we assume it works!
+    self.pulled(pushd);
+
     done();
 };
 
