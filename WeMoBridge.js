@@ -342,9 +342,14 @@ WeMoBridge.prototype.meta = function () {
         return;
     }
 
+    var name = self.native.friendlyName;
+    if (_.isEmpty(name)) {
+        name = "WeMo " + self.native.uuid.substring(self.native.uuid.length - 4);
+    }
+
     return {
         "iot:thing": _.id.thing_urn.unique("WeMoSocket", self.native.uuid),
-        "schema:name": self.native.friendlyName || "WeMo",
+        "schema:name": name,
         'iot:vendor/type': self.native.deviceType,
         'iot:vendor/model': self.native.modelName,
         "schema:manufacturer": "http://www.belkin.com/",
