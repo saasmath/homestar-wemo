@@ -21,8 +21,8 @@ exports.binding = {
     bridge: require('../WeMoBridge').Bridge,
     model: exports.Model,
     matchd: {
-        'iot:vendor/type': 'urn:Belkin:device:controllee:1',
-        'iot:vendor/model': 'Socket',
+        'iot:vendor.type': 'urn:Belkin:device:controllee:1',
+        'iot:vendor.model': 'Socket',
     },
     connectd: {
         subscribes: [

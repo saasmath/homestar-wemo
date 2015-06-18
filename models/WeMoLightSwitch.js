@@ -22,7 +22,7 @@ exports.binding = {
     bridge: require('../WeMoBridge').Bridge,
     model: exports.Model,
     matchd: {
-        'iot:vendor/type': 'urn:Belkin:device:lightswitch:1',
+        'iot:vendor.type': 'urn:Belkin:device:lightswitch:1',
     },
     connectd: {
         subscribes: [
