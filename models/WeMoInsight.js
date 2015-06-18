@@ -81,18 +81,18 @@ exports.binding = {
 
                     /* time in seconds - as is */
                     if (d["today-uptime"] !== undefined) {
-                        paramd.cookd.on = d["today-uptime"];
+                        paramd.cookd["today-uptime"] = d["today-uptime"];
                     }
                     if (d["total-uptime"] !== undefined) {
-                        paramd.cookd.on = d["total-uptime"];
+                        paramd.cookd["total-uptime"] = d["total-uptime"];
                     }
 
                     /* mW*m -> joules */
                     if (d["today-power"] !== undefined) {
-                        paramd.cookd.on = d["today-power"] / 1000.0 * 60.0;
+                        paramd.cookd["today-power"] = d["today-power"] / 1000.0 * 60.0;
                     }
                     if (d["total-power"] !== undefined) {
-                        paramd.cookd.on = d["total-power"] / 1000.0 * 60.0;
+                        paramd.cookd["total-power"] = d["total-power"] / 1000.0 * 60.0;
                     }
                 }
             }
